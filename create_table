@@ -1,0 +1,52 @@
+create table phan_loai (
+ID_PL varchar(6), 
+name varchar(30), 
+constraint phan_loai_pk primary key (ID_PL));
+
+create table san_pham (
+ID_SP varchar(10), 
+name varchar(50), 
+quantity int, 
+prices int, 
+hsd varchar(10), 
+ID_PL varchar(6), 
+constraint san_pham_pk primary key (ID_SP), 
+constraint san_pham_fk　foreign key (ID_PL) references phan_loai(ID_PL));  
+
+create table tt_nhap_kho(
+ID_NH varchar(7), 
+time date, 
+constraint tt_nhap_kho_pk primary key (ID_NH)); 
+
+create table nhap_kho(
+ID_NH varchar(7), 
+ID_SP varchar(7), 
+quantity int, 
+input_prices int, 
+vendor varchar(30), 
+constraint nhap_kho_pk primary key (ID_NH, ID_SP), 
+constraint nhap_kho_fk_1 foreign key (ID_NH) references tt_nhap_kho(ID_NH), 
+constraint nhap_kho_fk_2 foreign key (ID_SP) references san_pham(ID_SP)); 
+
+create table khach_hang(
+ID_KH varchar(10), 
+first_name varchar(30), 
+last_name varchar(30), 
+email varchar(30), 
+phone_numbervarchar(20), 
+constraint khach_hang_pk primary key (ID_KH)); 
+
+create table ql_giao_dich(
+ID_GD varchar(7), 
+ID_KH varchar(10), 
+order_date date, 
+constraint ql_giao_dich_pk primary key (ID_GD), 
+constraint ql_giao_dich_fk foreign key (ID_KH) references khach_hang(ID_KH)); 
+
+create table tt_giao_dich (
+ID_GD varchar(7), 
+ID_SP varchar(10), 
+quantity int, 
+constraint tt_giao_dich_pk primary key (ID_GD, ID_SP), 
+constraint tt_giao_dich_fk_1 foreign key (ID_GD) references ql_giao_dich(ID_GD), 
+constraint tt_giao_dich_fk_2 foreign key (ID_SP) references san_pham(ID_SP)); 
